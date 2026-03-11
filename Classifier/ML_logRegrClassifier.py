@@ -7,9 +7,9 @@ iris = Iris()
 
 print(iris.irisDF)
 
-#creating an iris pairplot to be able to view how the variables relate towards each other graphically in order
-# to determine which we will want to use for different demonstrations of classification methods and issues
-# which variables already show class distinictions vs which show overlap
+#creates an iris pairplot to  view how the variables relate towards each other
+# this provides insight into which variables are optimal to use for classification
+# preferring variable relationships that are distinct rather than overlapping
 iris.execute_pairplot()
 
 #this next step splits the x,y datas into a train and test data set.  test size .65 puts 65% of the data in the test

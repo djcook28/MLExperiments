@@ -20,6 +20,7 @@ class Iris(Classify):
         self.sepal_train_lr = LogisticRegression()
         self.sepal_lr = LogisticRegression()
 
+    # makes a pair plot of the iris data to view the relationship of iris sepal and petal variables
     def execute_pairplot(self):
         super().execute_pairplot(self.irisDF)
 

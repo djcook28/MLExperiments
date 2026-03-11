@@ -2,10 +2,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import classification_report
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from sklearn.inspection import DecisionBoundaryDisplay
 
 class Classify:
+
+    # takes in a data frame and generates a pair plot to view the relationship of data frame variables
     def execute_pairplot(self, df):
         sns.set_style('darkgrid')
 
