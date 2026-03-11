@@ -39,11 +39,11 @@ class Iris(Classify):
         return test_class_pred, class_pred, class_test_set
 
     def petal_decision_display(self):
-        graph = super().decision_display(self.petal_lr, self.petals, self.petals.columns[0], self.petals.columns[1])
-        graph.ax_.scatter(self.petals.iloc[:,0], self.petals.iloc[:,1], c=self.classification)
+        graph = super().decision_display(self.petal_lr, self.petals, self.petals.columns[0], self.petals.columns[1], cmap='bwr')
+        graph.ax_.scatter(self.petals.iloc[:,0], self.petals.iloc[:,1], c=self.classification, cmap='bwr', edgecolor='black')
         plt.show()
 
     def sepal_decision_display(self):
-        graph = super().decision_display(self.sepal_lr, self.sepals, self.sepals.columns[0], self.sepals.columns[1])
-        graph.ax_.scatter(self.sepals.iloc[:, 0], self.sepals.iloc[:, 1], c=self.classification)
+        graph = super().decision_display(self.sepal_lr, self.sepals, self.sepals.columns[0], self.sepals.columns[1], cmap='bwr')
+        graph.ax_.scatter(self.sepals.iloc[:, 0], self.sepals.iloc[:, 1], c=self.classification, cmap='bwr', edgecolor='black')
         plt.show()
