@@ -24,7 +24,7 @@ slpw_x_train, slpw_x_test, slpw_class_train, slpw_class_test = (
 
 pwswGNB = GaussianNB().fit(pwsw_x_train, pwsw_class_train)
 pwsw_y_test_pred = pwswGNB.predict(pwsw_x_test)
-pwswGNB_full = GaussianNB.fit(pwswDF, iris.classification)
+pwswGNB_full = GaussianNB().fit(pwswDF, iris.classification)
 pwsw_y_full_pred = pwswGNB.predict(pwswDF)
 
 iris.print_classification_report(y_test=pwsw_class_test, y_pred=pwsw_y_test_pred)
