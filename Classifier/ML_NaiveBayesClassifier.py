@@ -1,3 +1,5 @@
+from sklearn.naive_bayes import GaussianNB
+
 from iris import Iris
 
 import warnings
@@ -12,8 +14,22 @@ iris = Iris()
 # these do have some overlap but not much which is actually preferred to help avoid overfitting
 iris.execute_pairplot()
 
-pwswDF = iris.irisDF['petal width (cm)'], ['sepal width (cm)']
-slpwDF = iris.irisDF['sepal length (cm)'], ['petal width (cm)']
+pwswDF = iris.irisDF[['petal width (cm)', 'sepal width (cm)']]
+slpwDF = iris.irisDF[['sepal length (cm)', 'petal width (cm)']]
 
-pwsw_test_class, pwsw_class_pred, pwsw_test_class_pred, pwsw_trainLR, pwsw_LR = iris.create_logreg(x=pwswDF, classification=iris.irisDF['Class'], test_size=.65)
-slpw_test_class, slpw_class_pred, slpw_test_class_pred, slpw_trainLR, slpw_LR = iris.create_logreg(x=slpwDF, classification=iris.irisDF['Class'], test_size=.65)
+pwsw_x_train, pwsw_x_test, pwsw_class_train, pwsw_class_test = (
+    iris.create_train_test_split(x=pwswDF,classification=iris.irisDF['Class'], test_size=.65))
+slpw_x_train, slpw_x_test, slpw_class_train, slpw_class_test = (
+    iris.create_train_test_split(x=slpwDF, classification=iris.irisDF['Class'], test_size=.65))
+
+pwswGNB = GaussianNB().fit(pwsw_x_train, pwsw_class_train)
+pwsw_y_test_pred = pwswGNB.predict(pwsw_x_test)
+pwswGNB_full = GaussianNB.fit(pwswDF, iris.classification)
+pwsw_y_full_pred = pwswGNB.predict(pwswDF)
+
+iris.print_classification_report(y_test=pwsw_class_test, y_pred=pwsw_y_test_pred)
+iris.print_classification_report(y_test=iris.classification, y_pred=pwsw_y_full_pred)
+
+slpwGNB = GaussianNB().fit(slpw_x_train,slpw_class_train)
+slpw_y_pred = slpwGNB.predict(slpw_x_test)
+iris.print_classification_report(y_test=slpw_class_test, y_pred=slpw_y_pred)

@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.datasets import load_iris
 from classify import Classify
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
 import seaborn as sns
 
