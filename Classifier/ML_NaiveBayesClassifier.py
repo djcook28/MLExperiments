@@ -45,3 +45,8 @@ run_GaussianNB(slpwDF, iris.irisDF['Class'])
 
 # the precision/recall of sepal length to petal width are better than sepal to petal width
 # sepal length is a more accurate indicator of iris type
+
+# it is important though to consider fact from data fit.  While this model fits well, does it make sense?
+# looking at the decision boundaries they create oval shape boundaries which doesn't really make logical sense
+# and we must consider here if a different model like a linear would be a better suited given what we know
+# about how flower classification should actually behave
