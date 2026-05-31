@@ -49,3 +49,9 @@ class Iris(Classify):
         graph = super().decision_display(self.sepal_lr, self.sepals, self.sepals.columns[0], self.sepals.columns[1], cmap='bwr')
         graph.ax_.scatter(self.sepals.iloc[:, 0], self.sepals.iloc[:, 1], c=self.classification, cmap='bwr', edgecolor='black')
         plt.show()
+
+    def decision_display(self, model, df, y):
+        graph = super().decision_display(model, df, x_label=df.columns[0], y_label= df.columns[1], cmap='bwr')
+        graph.ax_.scatter(df.iloc[:, 0], df.iloc[:, 1], c=y, cmap='bwr',
+                          edgecolor='black')
+        plt.show()
