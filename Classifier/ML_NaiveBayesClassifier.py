@@ -18,36 +18,30 @@ iris = Iris()
 pwswDF = iris.irisDF[['petal width (cm)', 'sepal width (cm)']]
 slpwDF = iris.irisDF[['sepal length (cm)', 'petal width (cm)']]
 
-pwsw_x_train, pwsw_x_test, pwsw_class_train, pwsw_class_test = (
-    iris.create_train_test_split(x=pwswDF,classification=iris.irisDF['Class'], test_size=.65))
-slpw_x_train, slpw_x_test, slpw_class_train, slpw_class_test = (
-    iris.create_train_test_split(x=slpwDF, classification=iris.irisDF['Class'], test_size=.65))
+# assumes a 2 column dataframe
+def run_GaussianNB(DF, classes):
+    x_train, x_test, class_train, class_test = (
+        iris.create_train_test_split(x=DF, classification=classes, test_size=.65))
 
-# create gaussian naive bayes classifiers based on petal and sepal width
-pwswGNB = GaussianNB().fit(pwsw_x_train, pwsw_class_train)
-pwsw_y_test_pred = pwswGNB.predict(pwsw_x_test)
-pwswGNB_full = GaussianNB().fit(pwswDF, iris.classification)
-pwsw_y_full_pred = pwswGNB_full.predict(pwswDF)
+    # create gaussian naive bayes classifiers based on DF
+    GNB = GaussianNB().fit(x_train, class_train)
+    y_test_pred = GNB.predict(x_test)
+    GNB_full = GaussianNB().fit(DF, classes)
+    y_full_pred = GNB_full.predict(DF)
 
-# view the predictability accuracy results based on petal and sepal width
-iris.print_classification_report(y_test=pwsw_class_test, y_pred=pwsw_y_test_pred)
-iris.print_classification_report(y_test=iris.classification, y_pred=pwsw_y_full_pred)
+    # view the predictability accuracy results based on DF
+    iris.print_classification_report(y_test=class_test, y_pred=y_test_pred)
+    iris.print_classification_report(y_test=classes, y_pred=y_full_pred)
 
-# view the decision boundaries of the test and full set based on the petal and sepal width NB
-iris.decision_display(pwswGNB, pwsw_x_test, pwsw_y_test_pred)
-iris.decision_display(pwswGNB_full, pwswDF, pwsw_y_full_pred)
+    # view the predictability accuracy results based on DF
+    iris.decision_display(GNB, x_test, y_test_pred)
+    iris.decision_display(GNB_full, DF, y_full_pred)
+
+#run gaussian naive bayes against petal and sepal width to gauge classification fit
+run_GaussianNB(pwswDF, iris.irisDF['Class'])
 
 # Now doing the same with sepal length and petal width to be able to compare which categorization may be better
-slpwGNB = GaussianNB().fit(slpw_x_train,slpw_class_train)
-slpw_y_test_pred = slpwGNB.predict(slpw_x_test)
-slpwGNB_full = GaussianNB().fit(slpwDF, iris.classification)
-slpw_y_full_pred = slpwGNB_full.predict(slpwDF)
-
-iris.print_classification_report(y_test=slpw_class_test, y_pred=slpw_y_test_pred)
-iris.print_classification_report(y_test=iris.classification, y_pred=slpw_y_full_pred)
-
-iris.decision_display(slpwGNB, slpw_x_test, slpw_y_test_pred)
-iris.decision_display(slpwGNB_full, slpwDF, slpw_y_full_pred)
+run_GaussianNB(slpwDF, iris.irisDF['Class'])
 
 # the precision/recall of sepal length to petal width are better than sepal to petal width
 # sepal length is a more accurate indicator of iris type
