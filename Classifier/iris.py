@@ -23,7 +23,7 @@ class Iris(Classify):
 
     # makes a pair plot of the iris data to view the relationship of iris sepal and petal variables
     def execute_pairplot(self):
-        super().execute_pairplot(self.irisDF)
+        super().execute_pairplot(self.irisDF, classifier='Class')
 
     def print_classification_report(self, y_test, y_pred):
         super().print_classification_report(y_test, y_pred, target_names=['Iris Setosa', 'Iris Versicolor', 'Iris Virginica'])

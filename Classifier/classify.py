@@ -8,10 +8,10 @@ from sklearn.inspection import DecisionBoundaryDisplay
 class Classify:
 
     # takes in a data frame and generates a pair plot to view the relationship of data frame variables
-    def execute_pairplot(self, df):
+    def execute_pairplot(self, df, classifier):
         sns.set_style('darkgrid')
 
-        graph = sns.pairplot(df, kind='scatter', hue='Class', palette='bright')
+        graph = sns.pairplot(df, kind='scatter', hue=classifier, palette='bright')
         plt.show()
 
     def print_classification_report(self, y_test, y_pred, target_names):
