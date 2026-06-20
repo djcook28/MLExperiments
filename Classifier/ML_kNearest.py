@@ -1,7 +1,4 @@
 from matplotlib import pyplot as plt
-from sklearn.metrics import accuracy_score
-from sklearn.neighbors import KNeighborsClassifier
-import pandas as pd
 from penguin import Penguin
 
 penguin = Penguin()
