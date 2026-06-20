@@ -25,8 +25,8 @@ class Iris(Classify):
     def execute_pairplot(self):
         super().execute_pairplot(self.irisDF, classifier='Class')
 
-    def print_classification_report(self, y_test, y_pred):
-        super().print_classification_report(y_test, y_pred, target_names=['Iris Setosa', 'Iris Versicolor', 'Iris Virginica'])
+    def print_classification_report(self, y, y_pred):
+        super().print_classification_report(y, y_pred, target_names=['Iris Setosa', 'Iris Versicolor', 'Iris Virginica'])
 
     def create_sepal_logreg(self, test_size):
         test_class_pred, class_pred, class_test_set, self.sepal_train_lr, self.sepal_lr = (

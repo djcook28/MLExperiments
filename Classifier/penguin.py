@@ -11,8 +11,13 @@ class Penguin(Classify):
         self.penguin_df = pd.read_csv('../DataSets/penguins.csv')
         self.penguin_df.dropna(inplace=True)
 
+        self.kAccuracy_data = pd.DataFrame()
+
         self.bill_flip_df = self.penguin_df[['bill_length_mm', 'flipper_length_mm']]
         self.species = self.penguin_df['species']
+
+        self.mass_billDepth_df = self.penguin_df[['body_mass_g', 'bill_depth_mm']]
+        self.gender = self.penguin_df['sex']
 
     def execute_pairplot(self, classifier):
         super().execute_pairplot(df=self.penguin_df, classifier=classifier)
@@ -21,6 +26,22 @@ class Penguin(Classify):
         bill_flip_train, bill_flip_test, species_train, species_test = (
             super().create_train_test_split(x=self.bill_flip_df, classification=self.species, test_size=test_size, random_state=random_state))
         return bill_flip_train, bill_flip_test, species_train, species_test
+
+    def gender_split_mass_bill(self, test_size, random_state=42):
+        mass_bill_train, mass_bill_test, gender_train, gender_test = (
+            super().create_train_test_split(x=self.mass_billDepth_df, classification=self.gender, test_size=test_size, random_state=random_state))
+        return mass_bill_train, mass_bill_test, gender_train, gender_test
+
+    def kNeighbor_range(self, x_train, y_train, x_test, y_test, k_range):
+        self.kAccuracy_data = super().kNeighbor_range(x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, k_range=k_range)
+
+    def species_kNeighbor(self, k):
+        pred = super().kNeighbor(x=self.bill_flip_df, y=self.species, k=k)
+        self.print_classification_report(y=self.species, y_pred=pred, target_names=self.species.unique())
+
+    def gender_kNeighbor(self, k):
+        pred = super().kNeighbor(x=self.mass_billDepth_df, y=self.gender, k=k)
+        self.print_classification_report(y=self.gender, y_pred=pred, target_names=self.gender.unique())
 
 if __name__ == '__main__':
     penguin = Penguin()

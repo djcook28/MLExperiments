@@ -5,26 +5,32 @@ import pandas as pd
 from penguin import Penguin
 
 penguin = Penguin()
+
+def plotKAccuracy(classification):
+    fig, ax = plt.subplots()
+    penguin.kAccuracy_data.plot(kind='line', x='K', y='Trained_accuracy', ax=ax, c='red', label='trained')
+    penguin.kAccuracy_data.plot(kind='line', x='K', y='Tested_accuracy', ax=ax, c='blue', label='tested')
+    plt.legend(loc='best')
+    plt.ylabel('Accuracy')
+    plt.xlabel(classification)
+    plt.show()
+
+# run a k neighbor classifier on penguin species using bill and flipper lengths
 x_train, x_test, y_train, y_test = penguin.species_split_bill_flipper(test_size=0.4)
+penguin.kNeighbor_range(x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, k_range=40)
+print(penguin.kAccuracy_data)
+plotKAccuracy(classification='Species')
 
-accuracy_data = pd.DataFrame(columns=['K','Trained_accuracy', 'Tested_accuracy'])
+# Based on the results a K of 1 for species seems optimal though it may result in overfitting, k=2 or 3 may be
+#more advisable as there could be greater variability in a larger dataset.
+penguin.species_kNeighbor(k=2)
 
-for k in range(1, 40):
-    classifier = KNeighborsClassifier(n_neighbors=k)
-    classifier.fit(x_train, y_train)
-    y_pred = classifier.predict(x_test)
-    y_train_pred = classifier.predict(x_train)
-    Tr_accuracy = accuracy_score(y_train, y_train_pred)
-    Te_accuracy = accuracy_score(y_test, y_pred)
-    accuracy_values = pd.DataFrame.from_dict({'K': [k], 'Trained_accuracy': [Tr_accuracy], 'Tested_accuracy': [Te_accuracy]})
-    accuracy_data = pd.concat([accuracy_data, accuracy_values], ignore_index=True)
+# run a k neighbor classifier on penguin gender using bill depth and body mass
+x_train, x_test, y_train, y_test = penguin.gender_split_mass_bill(test_size=0.4)
+penguin.kNeighbor_range(x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test, k_range=40)
+print(penguin.kAccuracy_data)
+plotKAccuracy(classification='Gender')
 
-print(accuracy_data.head())
-
-fig, ax = plt.subplots()
-accuracy_data.plot(kind='line', x='K', y='Trained_accuracy', ax=ax, c='red', label='trained')
-accuracy_data.plot(kind='line', x='K', y='Tested_accuracy', ax=ax, c='blue', label='tested')
-plt.legend(loc='best')
-plt.ylabel('Accuracy')
-plt.xlabel('species')
-plt.show()
+# Based on the results a K of 6 for gender seems optimal.  While K = 6 has a lower trained
+#accuracy it does have a higher test accuracy as opposed ti K = 1 for gender
+penguin.gender_kNeighbor(k=6)
